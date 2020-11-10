@@ -1,0 +1,1 @@
+`clear; docker exec -it kafka-streams-demo-1_kafka_1 kafka-console-consumer --bootstrap-server 172.18.0.3:9092 --topic join-in-a --property print.key=true  --value-deserializer "org.apache.kafka.common.serialization.StringDeserializer" --formatter kafka.tools.DefaultMessageFormatter`
