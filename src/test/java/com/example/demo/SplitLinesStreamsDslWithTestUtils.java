@@ -6,6 +6,7 @@ import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.TopologyTestDriver;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,8 +34,13 @@ public class SplitLinesStreamsDslWithTestUtils {
     outputTopic = testDriver.createOutputTopic("result-topic", stringSerde.deserializer(), stringSerde.deserializer());
   }
 
+  @AfterEach
+  void tearDown() {
+    testDriver.close();
+  }
+
   @Test
-  void shouldPipeInput() {
+  void shouldSplitLines() {
     assertThat(outputTopic.isEmpty()).isTrue();
     inputTopic.pipeInput("hello. world");
     assertThat(outputTopic.isEmpty()).isFalse();
