@@ -22,10 +22,8 @@ public class Join {
     properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
     StreamsBuilder builder = new StreamsBuilder();
-//    String topicBaseName = UUID.randomUUID().toString();
-    String topicBaseName = "join";
-    String topicInA = topicBaseName + "-in-a";
-    String topicInB = topicBaseName + "-in-b";
+    String topicInA = "join-in-a";
+    String topicInB = "join-in-b";
 
     KStream<String, String> topinInAStream = builder.stream(topicInA);
     KStream<String, String> topinInBStream = builder.stream(topicInB);
@@ -37,10 +35,10 @@ public class Join {
 
     joinAB
         .merge(joinBA)
-        .to(topicBaseName + "-out");
+        .to("join-out");
 
     KafkaStreams kafkaStreams = new KafkaStreams(builder.build(), properties);
-    System.out.println("topicBaseName: " + topicBaseName);
+    System.out.println("topicBaseName: " + "join");
     kafkaStreams.start();
     doSend(topicInA, topicInB);
     Thread.sleep(999999999);
